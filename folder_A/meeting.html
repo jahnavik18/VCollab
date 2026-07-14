@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Meeting Room</title>
+
+    <link rel="stylesheet" href="css/meeting.css">
+
+</head>
+
+<body>
+
+    <h1 class="title">
+        Welcome to the VCollab Meeting Room
+    </h1>
+
+    <div class="meeting-container">
+
+        <!-- Video Section -->
+        <div class="video-section">
+
+            <video id="localVideo" autoplay playsinline muted></video>
+
+            <video id="remoteVideo" autoplay playsinline></video>
+
+        </div>
+
+        <!-- Control Buttons -->
+        <div class="controls">
+
+            <button onclick="startCamera()">
+                🎥 Start Camera
+            </button>
+
+            <button onclick="muteAudio()">
+                🎤 Mute / Unmute
+            </button>
+
+            <button onclick="shareScreen()">
+                🖥️ Share Screen
+            </button>
+
+            <button onclick="endMeeting()">
+                ❌ End Meeting
+            </button>
+
+        </div>
+
+        <!-- Chat Section -->
+        <div class="chat-section">
+
+            <h2>Meeting Chat</h2>
+
+            <div id="chatBox"></div>
+
+            <div class="chat-input">
+
+                <input
+                    type="text"
+                    id="message"
+                    placeholder="Type your message...">
+
+                <button onclick="sendMessage()">
+                    Send
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="js/meeting.js"></script>
+
+</body>
+
+</html>

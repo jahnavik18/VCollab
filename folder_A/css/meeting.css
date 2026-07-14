@@ -1,0 +1,185 @@
+/* ==========================
+   General Styles
+========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f6f8;
+}
+
+/* ==========================
+   Title
+========================== */
+
+.title{
+    text-align:center;
+    margin-top:30px;
+    color:#333;
+    font-size:32px;
+}
+
+/* ==========================
+   Meeting Container
+========================== */
+
+.meeting-container{
+    width:90%;
+    margin:30px auto;
+}
+
+/* ==========================
+   Video Section
+========================== */
+
+.video-section{
+    display:flex;
+    justify-content:center;
+    gap:25px;
+    flex-wrap:wrap;
+    margin-bottom:30px;
+}
+
+.video-section video{
+    width:450px;
+    height:300px;
+    background:black;
+    border:3px solid #2563eb;
+    border-radius:12px;
+    object-fit:cover;
+    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* ==========================
+   Control Buttons
+========================== */
+
+.controls{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-bottom:35px;
+}
+
+.controls button{
+    padding:12px 22px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:15px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.controls button:hover{
+    background:#1d4ed8;
+    transform:scale(1.05);
+}
+
+/* ==========================
+   Chat Section
+========================== */
+
+.chat-section{
+    width:80%;
+    max-width:700px;
+    margin:0 auto;
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+.chat-section h2{
+    text-align:center;
+    margin-bottom:15px;
+    color:#333;
+}
+
+#chatBox{
+    height:220px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    padding:10px;
+    overflow-y:auto;
+    background:#fafafa;
+    margin-bottom:15px;
+    text-align:left;
+}
+
+#chatBox p{
+    background:#e8f0fe;
+    padding:8px 12px;
+    border-radius:8px;
+    margin-bottom:8px;
+    color:#333;
+}
+
+.chat-input{
+    display:flex;
+    gap:10px;
+}
+
+.chat-input input{
+    flex:1;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    outline:none;
+    font-size:15px;
+}
+
+.chat-input input:focus{
+    border-color:#2563eb;
+}
+
+.chat-input button{
+    padding:12px 20px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.chat-input button:hover{
+    background:#1d4ed8;
+}
+
+/* ==========================
+   Responsive Design
+========================== */
+
+@media(max-width:900px){
+
+    .video-section{
+        flex-direction:column;
+        align-items:center;
+    }
+
+    .video-section video{
+        width:90%;
+        height:250px;
+    }
+
+    .chat-section{
+        width:95%;
+    }
+
+    .chat-input{
+        flex-direction:column;
+    }
+
+    .chat-input button{
+        width:100%;
+    }
+
+}
