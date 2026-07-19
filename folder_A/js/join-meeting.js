@@ -20,7 +20,7 @@ document.getElementById("joinForm")
     try {
 
         const response = await fetch(
-            "http://localhost:5000/api/meetings/join",
+            "https://vcollab-ee2a.onrender.com/api/meetings/join",
             {
                 method: "POST",
 

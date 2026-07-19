@@ -130,7 +130,7 @@ function handleEnter(event) {
 }
 async function checkBackend() {
     try {
-        const response = await fetch("http://localhost:5000/api");
+        const response = await fetch("https://vcollab-ee2a.onrender.com/api");
 
         const data = await response.json();
 

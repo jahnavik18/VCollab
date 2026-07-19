@@ -26,7 +26,7 @@ document.getElementById("meetingForm")
 
     // Send data to backend
     const response = await fetch(
-        "http://localhost:5000/api/meetings/create",
+        "https://vcollab-ee2a.onrender.com/api/meetings/create",
         {
 
             method: "POST",
