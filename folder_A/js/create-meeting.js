@@ -1,5 +1,5 @@
 document.getElementById("meetingForm")
-.addEventListener("submit", function(event) {
+.addEventListener("submit", async function(event) {
 
     event.preventDefault();
 
@@ -8,11 +8,10 @@ document.getElementById("meetingForm")
     let meetingID = Math.floor(100000 + Math.random() * 900000);
 
 
-    // Store meeting information
-
+    // Collect form data
     let meetingData = {
 
-        id: meetingID,
+        meetingId: meetingID.toString(),
 
         title: document.getElementById("title").value,
 
@@ -20,29 +19,54 @@ document.getElementById("meetingForm")
 
         date: document.getElementById("date").value,
 
-        time: document.getElementById("time").value,
-
-        type: document.getElementById("type").value
+        time: document.getElementById("time").value
 
     };
 
 
-    // Save data in browser
+    // Send data to backend
+    const response = await fetch(
+        "http://localhost:5000/api/meetings/create",
+        {
 
-    localStorage.setItem(
-        "meetingData",
-        JSON.stringify(meetingData)
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(meetingData)
+
+        }
     );
 
 
-    alert(
-        "Meeting Created Successfully!\nYour Meeting ID: " + meetingID
-    );
+    const data = await response.json();
 
 
-    // Open meeting room
+    if(response.ok){
 
-    window.location.href = "meeting.html";
+        // Save meeting details
+        localStorage.setItem(
+            "meetingData",
+            JSON.stringify(data.meeting)
+        );
 
+
+        alert(
+            "Meeting Created Successfully!\nMeeting ID: " 
+            + meetingID
+        );
+
+
+        // Open meeting room
+        window.location.href = "meeting.html";
+
+    }
+    else{
+
+        alert(data.message);
+
+    }
 
 });

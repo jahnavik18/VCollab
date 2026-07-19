@@ -183,3 +183,32 @@ body{
     }
 
 }
+/*==================Cht functionality==================*/
+.chat-container {
+    width: 300px;
+    padding: 15px;
+    border-radius: 10px;
+    background: #ffffff;
+}
+
+.chat-messages {
+    height: 250px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.chat-input-area {
+    display: flex;
+    gap: 5px;
+}
+
+.chat-input-area input {
+    flex: 1;
+    padding: 8px;
+}
+
+.chat-input-area button {
+    padding: 8px 12px;
+}

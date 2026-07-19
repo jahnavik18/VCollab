@@ -1,152 +1,143 @@
+const socket = io("http://192.168.1.32:5000");
+const roomId = "VCOLLAB_ROOM_123";
 
-// Global stream variable
-let stream = null;
+socket.emit("join-room", roomId);
 
-// ===========================
+socket.on("connect", () => {
+    console.log("Connected to Socket.IO:", socket.id);
+});
+let localStream = null;
+let screenStream = null;
+
 // Start Camera
-// ===========================
 async function startCamera() {
-
     try {
-
-        // Ask for camera & microphone permission
-        stream = await navigator.mediaDevices.getUserMedia({
+        localStream = await navigator.mediaDevices.getUserMedia({
             video: true,
             audio: true
         });
 
-        // Display video
-        const localVideo = document.getElementById("localVideo");
-        localVideo.srcObject = stream;
+        const video = document.getElementById("localVideo");
 
-        console.log("Camera and microphone started");
+        if (video) {
+            video.srcObject = localStream;
+        }
+
+        console.log("Camera started successfully");
 
     } catch (error) {
-
-        console.error("Camera Error:", error);
-
-        alert("Unable to access camera or microphone.\n\nPlease allow camera permission.");
-
+        console.error("Camera error:", error);
+        alert("Camera permission was denied or camera is not available.");
     }
-
 }
 
-// ===========================
+
+// Mute / Unmute
+function muteAudio() {
+    if (!localStream) {
+        alert("Please start the camera first.");
+        return;
+    }
+
+    const audioTrack = localStream.getAudioTracks()[0];
+
+    if (audioTrack) {
+        audioTrack.enabled = !audioTrack.enabled;
+
+        console.log(
+            audioTrack.enabled
+                ? "Microphone unmuted"
+                : "Microphone muted"
+        );
+    }
+}
+
+
 // Share Screen
-// ===========================
 async function shareScreen() {
-
     try {
-
-        const screenStream = await navigator.mediaDevices.getDisplayMedia({
+        screenStream = await navigator.mediaDevices.getDisplayMedia({
             video: true
         });
 
-        // Show shared screen in local video
-        document.getElementById("localVideo").srcObject = screenStream;
+        const video = document.getElementById("localVideo");
+
+        if (video) {
+            video.srcObject = screenStream;
+        }
 
         console.log("Screen sharing started");
 
-        // When screen sharing stops, return to camera
-        screenStream.getVideoTracks()[0].onended = function () {
-
-            if (stream) {
-
-                document.getElementById("localVideo").srcObject = stream;
-
-            }
-
-        };
-
     } catch (error) {
-
-        console.error("Screen Share Error:", error);
-
-        alert("Screen sharing cancelled.");
-
+        console.error("Screen sharing error:", error);
     }
-
 }
 
-// ===========================
-// Mute / Unmute
-// ===========================
-function muteAudio() {
 
-    if (!stream) {
-
-        alert("Start the camera first.");
-        return;
-
-    }
-
-    const audioTrack = stream.getAudioTracks()[0];
-
-    if (!audioTrack) {
-
-        alert("No microphone found.");
-        return;
-
-    }
-
-    audioTrack.enabled = !audioTrack.enabled;
-
-    if (audioTrack.enabled) {
-
-        alert("Microphone Unmuted");
-
-    } else {
-
-        alert("Microphone Muted");
-
-    }
-
-}
-
-// ===========================
 // End Meeting
-// ===========================
 function endMeeting() {
 
-    if (stream) {
-
-        stream.getTracks().forEach(track => track.stop());
-
-        document.getElementById("localVideo").srcObject = null;
-
-        stream = null;
-
+    if (localStream) {
+        localStream.getTracks().forEach(track => track.stop());
     }
 
-    alert("Meeting Ended");
+    if (screenStream) {
+        screenStream.getTracks().forEach(track => track.stop());
+    }
 
+    const video = document.getElementById("localVideo");
+
+    if (video) {
+        video.srcObject = null;
+    }
+
+    alert("Meeting ended");
+
+    // Go back to dashboard
     window.location.href = "dashboard.html";
-
 }
-// ===========================
-// Send Chat Message
-// ===========================
+// Chat Functionality
 function sendMessage() {
 
-    let message = document.getElementById("message").value.trim();
+    const messageInput = document.getElementById("message");
+    const chatBox = document.getElementById("chatBox");
+
+    const message = messageInput.value.trim();
 
     if (message === "") {
-
-        alert("Please enter a message.");
         return;
-
     }
 
-    let chatBox = document.getElementById("chatBox");
+    const messageElement = document.createElement("p");
 
-    let newMessage = document.createElement("p");
+    messageElement.textContent = message;
 
-    newMessage.innerHTML = "<strong>You:</strong> " + message;
+    chatBox.appendChild(messageElement);
 
-    chatBox.appendChild(newMessage);
+    messageInput.value = "";
 
     chatBox.scrollTop = chatBox.scrollHeight;
+}
 
-    document.getElementById("message").value = "";
+
+// Send message by pressing Enter
+function handleEnter(event) {
+
+    if (event.key === "Enter") {
+        sendMessage();
+    }
 
 }
+async function checkBackend() {
+    try {
+        const response = await fetch("http://localhost:5000/api");
+
+        const data = await response.json();
+
+        console.log("Backend Response:", data);
+
+    } catch (error) {
+        console.error("Backend connection error:", error);
+    }
+}
+checkBackend();
