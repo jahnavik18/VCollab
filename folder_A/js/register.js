@@ -13,7 +13,7 @@ document.getElementById("registerForm").addEventListener("submit", async (e) => 
     }
 
     try {
-        const response = await fetch("https://vcollab-ee2a.onrender.com", {
+        const response = await fetch("https://vcollab-ee2a.onrender.com/api/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
